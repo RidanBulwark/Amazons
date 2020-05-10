@@ -6,8 +6,8 @@
 using namespace std;
 using namespace genv;
 
-SetNum::SetNum(Application * parent, int x, int y, int sx, int sy):
-               Widget(parent, x, y, sx, sy), value(6), lowerLimit(6), upperLimit(12), 
+SetNum::SetNum(Application * parent, int x, int y, int sx, int sy, int lowerlimit, int upperlimit):
+               Widget(parent, x, y, sx, sy), value(lowerlimit), lowerLimit(lowerlimit), upperLimit(upperlimit), 
                focused(false){}
 
 void SetNum::Draw(){

@@ -10,7 +10,7 @@ class SetNum : public Widget{
         int value, lowerLimit, upperLimit;
         bool focused;
     public:
-        SetNum(Application * parent, int x, int y, int sx, int sy);
+        SetNum(Application * parent, int x, int y, int sx, int sy, int lowerlim, int upperlim);
         virtual void Draw();
         virtual bool IsSelected(int posx, int posy);
         virtual void Handle(genv::event ev);

@@ -6,12 +6,14 @@
 
 class Amazon : public Widget{
     protected:
-        int amazonX, amazonY;
-        std::function<void(int, int)> holvagyok;
+        std::function<void(int, int)> checkPositon;
+        bool team, selected;
     public:
-        Amazon(Application * parent, int x, int y, int sx, int sy, int aposx, int aposy, 
-               std::function<void(int, int)> holvagyok);
-        virtual void Move();
+        Amazon(Application * parent, int x, int y, int sx, int sy,
+               std::function<void(int, int)> checkPositon, bool team);
+        virtual void Draw();
+        virtual void Handle(genv::event ev);
+        virtual bool IsSelected(int posx, int posy);
 };
 
 #endif

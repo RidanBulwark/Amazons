@@ -11,42 +11,65 @@
 #include <vector>
 #include <iostream>
 #include <functional>
+#include <cmath>
 
 using namespace std;
 using namespace genv;
 
 class Amazons : public Application{
     protected:
-        SetNum *boardSizeSet;
+        SetNum *setBoardSize, *setAmazonNum;
         Button *playButton, *vsBotButton;
+        vector<Field *> fields;
         /* vector<vector<Field *>> _Fields;
         vector<Amazon *> _Amazons;
         vector<Arrow *> _Arrows;  */
         int state = 0;
         int boardSize = 0;
+        int maxAmazons = 0;
     public:
         Amazons(int Wid, int Hei): Application(Wid, Hei){}
 
         void Menu(){
-            boardSizeSet = new SetNum(this, 250, 350, 100, 30);
+            setBoardSize = new SetNum(this, 250, 300, 100, 30, 6, 12);
+            setAmazonNum = new SetNum(this, 250, 340, 100, 30, 1, 4);
             function<void()> play = [=](){
                 widgets.clear();
                 state = 1;
-                boardSize = boardSizeSet->GetValue();
+                boardSize = setBoardSize->GetValue();
                 StateCheck();
             };
             playButton = new Button(this, 250, 150, 100, 30, "Play", play);
             /* vsBotButton = new Button(this, 250, 190, 100, 30, "VS Bot"); */
         }
 
-        void Play(){
+        void Setup(){
+            double calculate = wid/boardSize, fieldSize;
+            fieldSize = floor(calculate);
+
+            function<void(int, int)> checkPosition = [=](int cx, int cy){
+                for(Field * f : fields){
+                    f->Pushed(cx, cy);
+                }
+            };
+
+            function<void(int, int)> newAmazon = [=](int cx, int cy){
+                bool team = maxAmazons%2;
+                if(maxAmazons < setAmazonNum->GetValue()*2){
+                Amazon *amazon = new Amazon(this, cx, cy, fieldSize, fieldSize, checkPosition, team);
+                }
+                maxAmazons +=1;
+            };
+
             for(int i = 0;i<boardSize;i++){
                 for(int j = 0;j<boardSize;j++){
-                    Field *F = new Field(this, i, j, 50, 50, (i+j)%2);
-                    widgets.push_back(F);
+                    Field *F = new Field(this, i*fieldSize, j*fieldSize, fieldSize, fieldSize, (i+j)%2, newAmazon);
+                    fields.push_back(F);
                 }
             }
         }
+
+        void Play(){}
         
         void GameOver(){}
 
@@ -61,7 +84,11 @@ class Amazons : public Application{
                 Amazons::EventLoop();
                 break;
             case 1:
-                Play();
+                Setup();
+                Amazons::EventLoop();
+                break;
+            case 2:
+                /* Play(); */
                 Amazons::EventLoop();
                 break;
             case 9:
