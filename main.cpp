@@ -27,6 +27,9 @@ class Amazons : public Application{
         int state = 0;
         int boardSize = 0;
         int maxAmazons = 0;
+        bool moveAmazon = false;
+        bool team = false;
+        bool setup = true;
     public:
         Amazons(int Wid, int Hei): Application(Wid, Hei){}
 
@@ -46,19 +49,40 @@ class Amazons : public Application{
         void Setup(){
             double calculate = wid/boardSize, fieldSize;
             fieldSize = floor(calculate);
+            if(maxAmazons < setAmazonNum->GetValue()*2){setup = true;}
 
             function<void(int, int)> checkPosition = [=](int cx, int cy){
                 for(Field * f : fields){
-                    f->Pushed(cx, cy);
+                    f->Colored(cx, cy);
+                    setup = false;
                 }
+                moveAmazon = true;
             };
 
+            if(maxAmazons < setAmazonNum->GetValue()*2){setup = true;}
+
             function<void(int, int)> newAmazon = [=](int cx, int cy){
-                bool team = maxAmazons%2;
-                if(maxAmazons < setAmazonNum->GetValue()*2){
-                Amazon *amazon = new Amazon(this, cx, cy, fieldSize, fieldSize, checkPosition, team);
+                if(maxAmazons == setAmazonNum->GetValue()*2){setup = false;}
+                if(maxAmazons < setAmazonNum->GetValue()*2){setup = true;}
+                
+                if((maxAmazons < setAmazonNum->GetValue()*2) && setup){
+                    Amazon *amazon = new Amazon(this, cx, cy, fieldSize, fieldSize, checkPosition, team);
+                    team = !team;
+                    maxAmazons +=1;
+                    cout << "new:" << maxAmazons << " team:"<< team << " wsize" << 
+                    widgets.size() <<'\n';
                 }
-                maxAmazons +=1;
+                
+                cout << maxAmazons << " - " << setAmazonNum->GetValue()*2 << " setup" << setup<<'\n';
+                
+                if(moveAmazon && !setup){
+                    cout << "move:" <<maxAmazons << " team:"<< team << " wsize" << 
+                    widgets.size() <<'\n';
+                    widgets.erase(widgets.end() -2);
+                    Amazon *amazon = new Amazon(this, cx, cy, fieldSize, fieldSize, checkPosition, team);
+                    team = !team;
+                    moveAmazon = false;
+                }
             };
 
             for(int i = 0;i<boardSize;i++){
