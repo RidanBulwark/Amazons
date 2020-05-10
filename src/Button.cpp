@@ -8,37 +8,33 @@
 using namespace std;
 using namespace genv;
 
-Button::Button(Application * parent, int x, int y, int sx, int sy, string param):
-                Widget(parent, x, y, sx, sy), _Param(param), _Pushed(false){}
+Button::Button(Application * parent, int x, int y, int sx, int sy, std::string caption, function<void()> action):
+                Widget(parent, x, y, sx, sy), caption(caption), action(action), pushed(false){}
 
-void Button::draw(){
+void Button::Draw(){
     gout << color(255, 255, 255);
-    if(_Pushed){
+    if(pushed){
         gout << color(102, 255, 153);
     }
-    gout << move_to(_x,_y)  << box(_wid, _hei)
-         << move_to(_x+3,_y+gout.cascent()+1) << color(0,0,0) << text(_Param);
+    gout << move_to(x,y)  << box(wid, hei)
+         << move_to(x+3,y+gout.cascent()+1) << color(0,0,0) << text(caption);
 }
 
-string Button::action(){
-    if(_Pushed){
-        return _Param;}
-}
-
-void Button::handle(genv::event ev){
-    if(Widget::is_selected(ev.pos_x, ev.pos_y)){
-        if(ev.pos_x > _x && ev.pos_x < _x+_wid  &&
-           ev.pos_y > _y && ev.pos_y < _y+_hei){
-               if(ev.type == ev_mouse && ev.button == btn_left){
-                _Pushed = true;
-           }
-        }
+void Button::Handle(genv::event ev){
+    if(Widget::IsSelected(ev.pos_x, ev.pos_y)){
+            if(ev.button == btn_left){
+                pushed = true;
+            }
+            if(ev.button == -btn_left){
+                pushed = false;
+                action();
+            }
     }
 }
 
 
 
-/* bool Button::is_selected(int posx, int posy){
-    _Pushed = Widget::is_selected(posx, posy);
-    return _Pushed;
-} */
+bool Button::IsSelected(int posx, int posy){
+    pushed = Widget::IsSelected(posx, posy);
+    return pushed;
+}

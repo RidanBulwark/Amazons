@@ -5,7 +5,7 @@
 
 class Arrow : public Widget{
     protected:
-        int _Arrow_x, _Arrow_y;
+        int coordX, coordY;
     public:
         Arrow(Application * parent, int x, int y, int sx, int sy, int arposx, int arposy);
         void shoot(int x, int y);

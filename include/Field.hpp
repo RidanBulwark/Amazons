@@ -5,11 +5,12 @@
 
 class Field : public Widget{
     protected:
-        int _F_pos_x, _F_pos_y, _Map_Wid;
-        bool _Have_Amazon, _Have_Arrow;
+        int coordX, coordY;
+        bool hasAmazon, hasArrow, colorIndex;
     public:
-        Field(Application * parent, int x, int y, int sx, int sy, int MapWid);
-        virtual void draw();
+        Field(Application * parent, int x, int y, int sx, int sy, bool colorIndex);
+        void Draw();
+        void Handle(genv::event ev);
         bool have_arrow();
         bool have_amazon();
 };

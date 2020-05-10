@@ -7,14 +7,14 @@
 
 class SetNum : public Widget{
     protected:
-        int _Value, _LowLim, _UpLim;
-        bool _Focused;
+        int value, lowerLimit, upperLimit;
+        bool focused;
     public:
         SetNum(Application * parent, int x, int y, int sx, int sy);
-        virtual void draw();
-        virtual bool is_selected(int posx, int posy);
-        virtual void handle(genv::event ev);
-        int get_value();
+        virtual void Draw();
+        virtual bool IsSelected(int posx, int posy);
+        virtual void Handle(genv::event ev);
+        int GetValue();
 };
 
 #endif

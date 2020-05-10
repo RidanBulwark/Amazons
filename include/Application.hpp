@@ -8,17 +8,17 @@ class Widget;
 
 class Application{
     protected:
-        std::vector<Widget *> _widgets;
-        int _Win_Wid, _Win_Hei;
+        std::vector<Widget *> widgets;
+        int wid, hei;
     public:
-        Application(int Wid, int Hei);
+        Application(int wid, int wei);
         virtual ~Application(){};
-        void register_widget(Widget *);
-        void event_loop();
-        virtual void action(std::string param) = 0;
-        virtual void OGOUT();
-        virtual void CLS();
-        virtual void DRAW(std::vector<Widget *> _widgets);
+        void RegisterWidget(Widget *);
+        void EventLoop();
+        virtual void Action(std::string param) = 0;
+        virtual void OpenGout();
+        virtual void ClearScreen();
+        virtual void Draw(std::vector<Widget *> _widgets);
 };
 
 

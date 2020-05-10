@@ -3,16 +3,13 @@
 
 #include <string>
 
+
 Widget::Widget(Application * parent, int x, int y, int wid, int hei):
-                _parent(parent), _x(x), _y(y), _wid(wid), _hei(hei)
+                parent(parent), x(x), y(y), wid(wid), hei(hei)
                 {
-                    _parent->Application::register_widget(this);
+                    parent->RegisterWidget(this);
                 }
 
-bool Widget::is_selected(int posx, int posy){
-    return posx>_x && posx<_x+_wid && posy>_y && posy<_y+_hei;
+bool Widget::IsSelected(int posx, int posy){
+    return posx>x && posx<x+wid && posy>y && posy<y+hei;
 }
-
-/* void Widget::set_OnScreen(bool set){
-    _OnScreen = set;
-} */

@@ -7,55 +7,55 @@ using namespace std;
 using namespace genv;
 
 SetNum::SetNum(Application * parent, int x, int y, int sx, int sy):
-               Widget(parent, x, y, sx, sy), _Value(6), _LowLim(6), _UpLim(12), 
-               _Focused(false){}
+               Widget(parent, x, y, sx, sy), value(6), lowerLimit(6), upperLimit(12), 
+               focused(false){}
 
-void SetNum::draw(){
+void SetNum::Draw(){
     gout << color(255,255,255);
-    if(_Focused){
+    if(focused){
         gout << color(102, 255, 153);
     }
-    gout << move_to(_x, _y) << box(_wid, _hei) 
-            << move_to(_x+_wid-_hei/2, _y) << color(100,244,255) << box(_hei/2,_hei/2)                     //fölső állító négyzet
-            << move_to(_x+_wid-_hei/2, _y+_hei/2) << color(0,0,0) << line(_hei/2, 0)                       // vonal
-            << move_to(_x+_wid-_hei/2, _y+_hei/2+1) << color(0,204,255) << box(_hei/2,_hei/2-1);         // alsó állító négyzet
-    gout << move_to(_x+_wid-_hei/2+(_hei/4-3), _y+gout.cascent()-1) << color(0,0,0) << text("+") // +
-            << move_to(_x+_wid-_hei/2+(_hei/4-3), _y+_hei/2+gout.cascent()-1) << text("-");       // - 
+    gout << move_to(x, y) << box(wid, hei) 
+            << move_to(x+wid-hei/2, y) << color(100,244,255) << box(hei/2,hei/2)                     //fölső állító négyzet
+            << move_to(x+wid-hei/2, y+hei/2) << color(0,0,0) << line(hei/2, 0)                       // vonal
+            << move_to(x+wid-hei/2, y+hei/2+1) << color(0,204,255) << box(hei/2,hei/2-1);         // alsó állító négyzet
+    gout << move_to(x+wid-hei/2+(hei/4-3), y+gout.cascent()-1) << color(0,0,0) << text("+") // +
+            << move_to(x+wid-hei/2+(hei/4-3), y+hei/2+gout.cascent()-1) << text("-");       // - 
     
-    gout << move_to(_x + 3, _y + gout.cascent()) << text(to_string(_Value));
+    gout << move_to(x + 3, y + gout.cascent()) << text(to_string(value));
 
 }
 
-bool SetNum::is_selected(int posx, int posy){
-    _Focused = Widget::is_selected(posx, posy);
-    return _Focused; 
+bool SetNum::IsSelected(int posx, int posy){
+    focused = Widget::IsSelected(posx, posy);
+    return focused; 
 }
 
-void SetNum::handle(genv::event ev){
-    if(_Focused){
-        if(ev.pos_x > _x+_wid-_hei/2 && ev.pos_x < _x+_wid  &&
-           ev.pos_y > _y && ev.pos_y < _y+_hei/2){
+void SetNum::Handle(genv::event ev){
+    if(focused){
+        if(ev.pos_x > x+wid-hei/2 && ev.pos_x < x+wid  &&
+           ev.pos_y > y && ev.pos_y < y+hei/2){
                if(ev.type == ev_mouse && ev.button == btn_left){
-               _Value = min(_Value+1, _UpLim);}
+               value = min(value+1, upperLimit);}
            }
-        if(ev.pos_x > _x+_wid-_hei/2 && ev.pos_x < _x+_wid  &&
-           ev.pos_y > _y+_hei/2 && ev.pos_y < _y+_hei){
+        if(ev.pos_x > x+wid-hei/2 && ev.pos_x < x+wid  &&
+           ev.pos_y > y+hei/2 && ev.pos_y < y+hei){
                if(ev.type == ev_mouse && ev.button == btn_left){
-               _Value = max(_Value-1, _LowLim);}
+               value = max(value-1, lowerLimit);}
            }
         
         if(ev.type == ev_key && ev.keycode == key_up){
-            _Value = min(_Value+1, _UpLim);
+            value = min(value+1, upperLimit);
         }
         if(ev.type == ev_key && ev.keycode == key_down){
-            _Value = max(_Value-1, _LowLim);
+            value = max(value-1, lowerLimit);
         }
     }
 }
 
 
-int SetNum::get_value(){
-    return _Value;
+int SetNum::GetValue(){
+    return value;
 }
 
 
