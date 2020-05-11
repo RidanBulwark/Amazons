@@ -36,18 +36,17 @@ void Application::EventLoop(){
     Draw(widgets);    
 
     event ev;
-    int focus = -1;
     while (gin >> ev){
         if(ev.type == ev_mouse && ev.button == btn_left){
             for(size_t i = 0;i<widgets.size();i++){
                 if(widgets[i]->IsSelected(ev.pos_x, ev.pos_y)){
-                    focus = i;
+                    focusedWidget = i;
                 }
             }
         }
     
-        if(focus!=-1){
-            widgets[focus]->Handle(ev);
+        if(focusedWidget!=-1){
+            widgets[focusedWidget]->Handle(ev);
         }
         
         Draw(widgets);

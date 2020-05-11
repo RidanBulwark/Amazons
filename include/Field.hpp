@@ -17,7 +17,8 @@ class Field : public Widget{
         bool HaveAmazon();
         bool NewAmazon(int cx, int cy);
         virtual bool IsSelected(int posx, int posy);
-        void Colored(int inx, int iny);
+        void ColorThis(int inx, int iny);
+        bool IsColored(int inx, int iny);
 };
 
 #endif

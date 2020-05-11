@@ -10,6 +10,7 @@ class Application{
     protected:
         std::vector<Widget *> widgets;
         int wid, hei;
+        int focusedWidget = -1;
     public:
         Application(int wid, int wei);
         virtual ~Application(){};

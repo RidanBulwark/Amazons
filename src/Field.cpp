@@ -39,7 +39,7 @@ bool Field::IsSelected(int posx, int posy){
     return pushed;
 }
 
-void Field::Colored(int inx, int iny){ //PushYourself
+void Field::ColorThis(int inx, int iny){ //PushYourself
     if(x == inx){
         pushed = true;
     }
@@ -52,4 +52,8 @@ void Field::Colored(int inx, int iny){ //PushYourself
     if(x-y == inx-iny){
         pushed = true;
     }
+}
+
+bool Field::IsColored(int inx, int iny){
+    return pushed;
 }
